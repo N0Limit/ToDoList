@@ -8,6 +8,7 @@ const todos = [
     task: 'make React tutorial',
 
 }
+
 ];
 
 class TodoBox extends React.Component {
@@ -16,22 +17,23 @@ class TodoBox extends React.Component {
     this.state = {
       todos
     };
-
+    this.deleteTask = this.deleteTask.bind(this);
+    this.editTask = this.editTask.bind(this);
   }
 
   render() {
     return(
-      <div className="todo-box">
-        <h1 className="todo-text">React Todolist</h1>
-           <TodosList
-           task={this.state.todos}
-           deleteTask={this.deleteTask}
-            />
+      <div>
+      <h1>React Todolist</h1>
+        <CreateTodo  createTask={this.createTasks.bind(this)} />
 
-          <CreateTodo todos={this.state.todos} createTask={this.createTasks.bind(this)} />
-
-
+        <TodosList
+          task={this.state.todos}
+          deleteTask={this.deleteTask}
+          editTask={this.editTask}
+          />
       </div>
+
     );
   }
 
@@ -40,13 +42,29 @@ class TodoBox extends React.Component {
     this.state.todos.push({
             task
         });}
-    this.setState({todos: this.state.todos});
+    this.setState({
+      todos: this.state.todos
+    });
   }
 
-  deleteTask(index, e){
-    alert(this.state.todos)
+  deleteTask(index){
+    let itemsList = this.state.todos;
+    itemsList.splice(index, 1);
+    this.setState({
+      todos: this.state.todos
+    });
   }
 
+  editTask(index, task){
+
+
+    let itemsList = this.state.todos;
+    itemsList[index].task = task;
+
+    this.setState({
+      todos: this.state.todos
+    });
+  }
 }
 
 ReactDOM.render(
